@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ifma.activitybar.mapper.CardMapper">
+
+	<resultMap type="Card" id="getCardMap">
+		<id property="id" column="id"/>
+		<result property="balance" column="balance"/>
+		<result property="time" column="time"/>
+		<result property="isUsed" column="isUsed"/>
+	</resultMap>
+	
+	<insert id="add" parameterType="Card">
+		insert into cards values(#{id},#{balance},#{time},#{isUsed},null)
+	</insert>
+	
+	<update id="update" parameterType="Card">
+		update cards set balance=#{balance},time=#{time},isUsed=#{isUsed},user_id=#{user.id} where id=#{id}
+	</update>
+	
+	<select id="getById" parameterType="String" resultMap="getCardMap">
+		select id,balance,time,isused from cards where id=#{id}
+	</select>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ifma.activitybar.mapper.UserMapper">
+	<resultMap type="User" id="getUserMap">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="password" column="password"/>
+		<result property="balance" column="balance"/>
+		<result property="gender" column="gender"/>
+		<result property="age" column="age"/>
+		<result property="email" column="email"/>
+	</resultMap>
+	
+	<select id="getById" resultMap="getUserMap">
+		select id,name,password,balance,gender,age,email from user where id=#{id}
+	</select>
+	
+	<select id="getByNamePwd" resultMap="getUserMap">
+		select id,name,password,balance,gender,age,email from user where name=#{name} and password=#{pwd}
+	</select>
+	
+	<select id="getName" parameterType="String" resultType="String">
+		select name from user where name=#{name}
+	</select>
+	
+	<select id="getIdByName" parameterType="String" resultType="Integer">
+		select id from user where name=#{name}
+	</select>
+	
+	<insert id="add" parameterType="User">
+		insert into user values(null,#{name},#{password},#{balance},#{gender},#{age},#{email})
+	</insert>
+	
+	<update id="update" parameterType="User">
+		update user set name=#{name},password=#{password},balance=#{balance},gender=#{gender},age=#{age},email=#{email} where id=#{id}
+	</update>
+
+	<select id="getByOpenId" parameterType="String" resultType="Integer">
+		select user_id from useropenid where openid=#{openId}
+	</select>
+	
+	<select id="getBindId" parameterType="int" resultType="Integer">
+		select user_id from useropenid where user_id=#{userId}
+	</select>
+	
+	<insert id="bind" >
+		insert into useropenid values (#{id},#{openid})
+	</insert>
+	
+	<select id="getOpenId" parameterType="String" resultType="String">
+		select openid from useropenid where openid = #{openid}
+	</select>
+</mapper>

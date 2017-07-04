@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ifma.activitybar.mapper.AdminMapper">
+
+	<resultMap type="Admin" id="getAdminMap">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="password" column="password"/>
+	</resultMap>
+	
+	
+	<select id="getByNamePwd"  resultMap="getAdminMap">
+		select id,name,password
+		from admin
+		where name=#{name} and password=#{pwd}
+	</select>
+</mapper>

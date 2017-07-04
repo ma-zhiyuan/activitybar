@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ifma.activitybar.mapper.ItemMapper">
+
+	<resultMap type="Item" id="getItemMap">
+		<result property="userid" column="userid" />
+		<result property="activityid" column="activityid" />
+	</resultMap>
+
+	<insert id="add">
+		insert into item values(#{userid},#{activityid})
+	</insert>
+
+	<select id="get" resultMap="getItemMap">
+		select userid,activityid 
+		from item
+		where userid=#{userid} and activityid=#{activityid}
+	</select>
+	
+	<select id="getByUserid" resultMap="getItemMap">
+		select userid,activityid
+		from item
+		where userid=#{userid}
+	</select>
+	
+	<select id="getCount" parameterType="int" resultType="Integer">
+		select count(*) from item where activityid=#{id}
+	</select>
+	
+	<select id="getByActivityId" parameterType="int" resultMap="getItemMap">
+		select userid,activityid
+		from item
+		where activityid=#{id}
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		delete from item where activityid=#{id}
+	</delete>
+
+</mapper>

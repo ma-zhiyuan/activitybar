@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ifma.activitybar.mapper.ActivityMapper">
+
+	<resultMap type="Activity" id="getActivityMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="date" column="date" />
+		<result property="surface" column="surface" />
+		<result property="place" column="place" />
+		<result property="personsum" column="personsum" />
+		<result property="cost" column="cost" />
+		<result property="contact" column="contact" />
+		<result property="detail" column="detail" />
+		<result property="creator" column="creator" />
+	</resultMap>
+
+	<select id="getCount" parameterType="me.ifma.activitybar.bean.Cretiera"
+		resultType="java.lang.Long">
+		select count(id)
+		from activity
+		where cost between #{minPrice}
+		and #{maxPrice}
+		and (name like "%"#{keyword}"%" or detail like
+		"%"#{keyword}"%")
+	</select>
+
+	<select id="getAll" resultMap="getActivityMap">
+		SELECT * FROM (SELECT * FROM
+		activity
+		WHERE cost
+		BETWEEN #{c.minPrice} and #{c.maxPrice}
+		and (name like "%"#{c.keyword}"%" or detail like "%"#{c.keyword}"%")
+		order by ${orderby} ) activity 
+		LIMIT #{from},#{end}
+	</select>
+
+	<select id="getById" parameterType="int" resultMap="getActivityMap">
+		select
+		id,name,date,surface,place,personnum,cost,contact,detail,creator
+		from activity
+		where id=#{id}
+	</select>
+
+	<select id="getAdminAll" resultMap="getActivityMap">
+		select * from activity;
+	</select>
+
+	<delete id="delete" parameterType="int">
+		delete from activity
+		where
+		id=#{id}
+	</delete>
+
+	<insert id="add" parameterType="Activity" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into
+		activity(name,date,surface,place,personnum,cost,contact,detail,creator)
+		values(#{name},#{date},#{surface},#{place},#{personnum},#{cost},#{contact},#{detail},#{creator})
+	</insert>
+
+	<insert id="adds" parameterType="java.util.List" useGeneratedKeys="true"
+		keyProperty="id">
+		insert into activity(name) values
+		<foreach collection="list" item="activty" separator=",">
+			(#{activty.name})
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update activity set
+		name=#{name},date=#{date},surface=#{surface},place=#{place},personnum=#{personnum},cost=#{cost},contact=#{contact},detail=#{detail},creator=#{creator}
+		where id=#{id}
+	</update>
+</mapper>
