@@ -28,6 +28,11 @@ public class ItemHandler {
 	public String add(int id,Map<String,Object>map,HttpServletRequest request){
 		String msg = "";
 		User u = (User)request.getSession().getAttribute("user");
+		if(u == null){
+			msg = "您还未登陆，不能参加活动！";
+			map.put("msg", msg);
+			return "msg"；
+		}
 		double cost = activityService.getById(id).getCost();
 		if(itemService.get(u.getId(), id)!=null){
 			msg = "您已参加该活动，不能重复参加！";
